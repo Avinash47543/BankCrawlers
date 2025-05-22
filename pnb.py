@@ -8,14 +8,14 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def scrape_pnb_housing():
     # Initialize the webdriver
-    driver = webdriver.Chrome()  # You can use Firefox, Edge, etc.
+    driver = webdriver.Chrome() 
     driver.maximize_window()
     
-    # Open the target website
+   
     url = "https://www.pnbindia.in/housing-projects.aspx"
     driver.get(url)
     
-    # Wait for the page to load
+    
     wait = WebDriverWait(driver, 10)
     
     # Find the dropdown element
@@ -25,7 +25,7 @@ def scrape_pnb_housing():
     # Get all options from dropdown
     options = select.options
     
-    # Create CSV file and write headers
+    
     with open('pnb.csv', 'w', newline='', encoding='utf-8') as csvfile:
         csv_writer = csv.writer(csvfile)
         
@@ -54,7 +54,7 @@ def scrape_pnb_housing():
                 continue
                 
             if table_exists:
-                # Get table rows
+                
                 rows = table.find_elements(By.TAG_NAME, "tr")
                 
                 # Skip if there are no rows
@@ -62,7 +62,7 @@ def scrape_pnb_housing():
                     print(f"No data found for option: {options[i].text}")
                     continue
                 
-                # Write headers if not already written
+                
                 if not headers_written:
                     header_cells = rows[0].find_elements(By.TAG_NAME, "th")
                     headers = [cell.text.strip() for cell in header_cells]
@@ -80,7 +80,7 @@ def scrape_pnb_housing():
             # Reset dropdown for next iteration
             select = Select(driver.find_element(By.XPATH, '//*[@id="ContentPlaceHolder1_drpPlace"]'))
     
-    # Close the browser
+    
     driver.quit()
     print("Scraping completed. Data saved to pnb.csv")
 
